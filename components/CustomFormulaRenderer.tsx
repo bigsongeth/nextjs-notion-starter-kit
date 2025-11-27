@@ -1,6 +1,5 @@
-import * as React from 'react'
-
 import { getTextContent } from 'notion-utils'
+import * as React from 'react'
 
 import styles from './CustomFormulaRenderer.module.css'
 
