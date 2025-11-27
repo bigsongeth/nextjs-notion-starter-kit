@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -52,7 +53,7 @@ function analyzeScoreFormula() {
             return part
         } else if (Array.isArray(part) && part[0] === '‣') {
             // 这是一个属性引用
-            const propRef = part[1]?.[0]?.[1]
+            const propRef = (part as any[])[1]?.[0]?.[1]
             if (propRef?.property) {
                 // 查找属性名称
                 const refProp = Object.entries(communityCollection.schema).find(
