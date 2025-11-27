@@ -13,7 +13,7 @@ export const mapImageUrl = (url: string | undefined, block: Block) => {
   // To enable caching via Cloudflare Workers (or other CDNs):
   // 1. Deploy the worker script found in `scripts/cloudflare-worker.js`
   // 2. Uncomment the lines below and set your worker URL
-  const imageProxy = 'https://notion-image-proxy.jisongniu.workers.dev'
+  const imageProxy = 'https://notionimage.bigsong.site'
   if (imageUrl && imageProxy) {
     return `${imageProxy}/${encodeURIComponent(imageUrl)}`
   }

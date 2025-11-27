@@ -195,7 +195,7 @@ export function NotionPage({
 
   const components = React.useMemo<Partial<NotionComponents>>(
     () => ({
-      nextLegacyImage: Image,
+      nextLegacyImage: (props: any) => <Image {...props} unoptimized />,
       nextLink: Link,
       Code,
       Collection,

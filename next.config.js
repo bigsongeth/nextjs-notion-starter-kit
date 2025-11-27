@@ -18,7 +18,7 @@ export default withBundleAnalyzer({
       { protocol: 'https', hostname: 'abs.twimg.com' },
       { protocol: 'https', hostname: 'pbs.twimg.com' },
       { protocol: 'https', hostname: 's3.us-west-2.amazonaws.com' },
-      { protocol: 'https', hostname: 'notion-image-proxy.jisongniu.workers.dev' }
+      { protocol: 'https', hostname: 'notionimage.bigsong.site' }
     ],
     formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,
