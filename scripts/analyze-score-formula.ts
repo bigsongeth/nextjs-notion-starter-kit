@@ -79,7 +79,7 @@ function analyzeScoreFormula() {
     const referencedProps = new Set<string>()
     formulaCode.forEach((part: any) => {
         if (Array.isArray(part) && part[0] === '‣') {
-            const propRef = part[1]?.[0]?.[1]
+            const propRef = (part as any[])[1]?.[0]?.[1]
             if (propRef?.property) {
                 referencedProps.add(propRef.property)
             }
