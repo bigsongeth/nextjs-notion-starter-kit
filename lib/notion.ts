@@ -35,10 +35,12 @@ async function retry<T>(
       err?.message?.includes('429') ||
       err?.message?.includes('Too Many Requests')
     ) {
+      const jitter = Math.random() * 1000
+      const timeout = minTimeout + jitter
       console.log(
-        `Rate limited, retrying in ${minTimeout}ms... (${retries} retries left)`
+        `Rate limited, retrying in ${timeout.toFixed(0)}ms... (${retries} retries left)`
       )
-      await delay(minTimeout)
+      await delay(timeout)
       return retry(fn, { retries: retries - 1, minTimeout: minTimeout * 2 })
     }
 
@@ -74,8 +76,8 @@ const getNavigationLinkPages = pMemoize(
 
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
   let recordMap = await retry(() => notion.getPage(pageId), {
-    retries: 5,
-    minTimeout: 2000 // Start with 2s delay
+    retries: 10,
+    minTimeout: 5000 // Start with 5s delay
   })
 
   if (navigationStyle !== 'default') {
