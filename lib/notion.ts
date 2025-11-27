@@ -24,16 +24,16 @@ async function retry<T>(
 ): Promise<T> {
   try {
     return await fn()
-  } catch (error: any) {
+  } catch (err: any) {
     if (retries <= 0) {
-      throw error
+      throw err
     }
 
     // check for rate limit error
     if (
-      error?.status === 429 ||
-      error?.message?.includes('429') ||
-      error?.message?.includes('Too Many Requests')
+      err?.status === 429 ||
+      err?.message?.includes('429') ||
+      err?.message?.includes('Too Many Requests')
     ) {
       console.log(
         `Rate limited, retrying in ${minTimeout}ms... (${retries} retries left)`
@@ -42,7 +42,7 @@ async function retry<T>(
       return retry(fn, { retries: retries - 1, minTimeout: minTimeout * 2 })
     }
 
-    throw error
+    throw err
   }
 }
 
