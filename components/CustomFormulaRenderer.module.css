@@ -1,0 +1,152 @@
+/* 综合评分容器 */
+.scoreContainer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif;
+}
+
+/* 分数数字 */
+.scoreNumber {
+    font-weight: bold;
+    font-size: 16px;
+    color: #f97316;
+    /* orange-500 */
+}
+
+/* 星星容器 */
+.stars {
+    display: inline-flex;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 1px;
+}
+
+/* 实心星星 */
+.fullStars {
+    color: #f97316;
+    /* orange-500 */
+}
+
+/* 空心星星 */
+.emptyStars {
+    color: #d1d5db;
+    /* gray-300 */
+}
+
+/* 暂无评价容器 */
+.noRating {
+    display: inline-block;
+}
+
+/* 暂无评价文字 */
+.noRatingText {
+    color: #9ca3af;
+    /* gray-400 */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 环形评分容器 */
+.ringScoreContainer {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 环形进度条容器 */
+.ringProgress {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+/* 环形进度条中的分数文字 */
+.ringScoreText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: #f97316;
+}
+
+/* 环形评分标签 */
+.ringScoreLabel {
+    font-size: 12px;
+    color: #6b7280;
+    /* gray-500 */
+}
+
+/* 空评分 */
+.emptyScore {
+    color: #d1d5db;
+    /* gray-300 */
+    font-size: 14px;
+}
+
+/* 暗色模式支持 */
+:global(.dark-mode) .scoreNumber {
+    color: #fb923c;
+    /* orange-400 */
+}
+
+:global(.dark-mode) .fullStars {
+    color: #fb923c;
+    /* orange-400 */
+}
+
+:global(.dark-mode) .emptyStars {
+    color: #4b5563;
+    /* gray-600 */
+}
+
+:global(.dark-mode) .noRatingText {
+    color: #6b7280;
+    /* gray-500 */
+}
+
+:global(.dark-mode) .ringScoreText {
+    color: #fb923c;
+    /* orange-400 */
+}
+
+:global(.dark-mode) .ringScoreLabel {
+    color: #9ca3af;
+    /* gray-400 */
+}
+
+:global(.dark-mode) .emptyScore {
+    color: #4b5563;
+    /* gray-600 */
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+    .scoreContainer {
+        gap: 6px;
+    }
+
+    .scoreNumber {
+        font-size: 14px;
+    }
+
+    .stars {
+        font-size: 12px;
+    }
+
+    .ringProgress {
+        width: 36px;
+        height: 36px;
+    }
+
+    .ringScoreText {
+        font-size: 10px;
+    }
+
+    .ringScoreLabel {
+        font-size: 11px;
+    }
+}
