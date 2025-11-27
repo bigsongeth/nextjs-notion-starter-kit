@@ -16,6 +16,36 @@ import { getTweetsMap } from './get-tweets'
 import { notion } from './notion-api'
 import { getPreviewImageMap } from './preview-images'
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+async function retry<T>(
+  fn: () => Promise<T>,
+  { retries = 3, minTimeout = 1000 }: { retries?: number; minTimeout?: number } = {}
+): Promise<T> {
+  try {
+    return await fn()
+  } catch (error: any) {
+    if (retries <= 0) {
+      throw error
+    }
+
+    // check for rate limit error
+    if (
+      error?.status === 429 ||
+      error?.message?.includes('429') ||
+      error?.message?.includes('Too Many Requests')
+    ) {
+      console.log(
+        `Rate limited, retrying in ${minTimeout}ms... (${retries} retries left)`
+      )
+      await delay(minTimeout)
+      return retry(fn, { retries: retries - 1, minTimeout: minTimeout * 2 })
+    }
+
+    throw error
+  }
+}
+
 const getNavigationLinkPages = pMemoize(
   async (): Promise<ExtendedRecordMap[]> => {
     const navigationLinkPageIds = (navigationLinks || [])
@@ -33,7 +63,7 @@ const getNavigationLinkPages = pMemoize(
             signFileUrls: false
           }),
         {
-          concurrency: 4
+          concurrency: 1 // Reduce concurrency to avoid rate limits
         }
       )
     }
@@ -43,7 +73,10 @@ const getNavigationLinkPages = pMemoize(
 )
 
 export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
-  let recordMap = await notion.getPage(pageId)
+  let recordMap = await retry(() => notion.getPage(pageId), {
+    retries: 5,
+    minTimeout: 2000 // Start with 2s delay
+  })
 
   if (navigationStyle !== 'default') {
     // ensure that any pages linked to in the custom navigation header have
@@ -62,7 +95,7 @@ export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
 
   if (isPreviewImageSupportEnabled) {
     const previewImageMap = await getPreviewImageMap(recordMap)
-    ;(recordMap as any).preview_images = previewImageMap
+      ; (recordMap as any).preview_images = previewImageMap
   }
 
   await getTweetsMap(recordMap)
